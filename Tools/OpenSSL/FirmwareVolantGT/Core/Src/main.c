@@ -56,11 +56,11 @@ typedef enum {
 #define MOZA_UART_BAUDRATE 115200
 #define MOZA_PACKET_SIZE 64
 #define MOZA_HEADER_BYTE 0xA5
-#define MOZA_MAX_DATA_SIZE 56
-#define MOZA_PACKET_TIMEOUT 100  // ms
-#define MOZA_ERROR_TIMEOUT 1000  // ms
-#define MOZA_TX_INTERVAL 20      // ms
-#define BUTTON_DEBOUNCE_TIME 10  // ms
+
+// Définitions pour la broche de données MOZA
+#define MOZA_DATA_Pin GPIO_PIN_5
+#define MOZA_DATA_GPIO_Port GPIOB
+#define MOZA_BIT_TIME_US 8  // Temps pour un bit en microsecondes (ajustez selon le protocole)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -125,9 +125,18 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 static void ReadButtons(void);
 static void ReadEncoders(void);
-static void ProcessMozaData(uint8_t* data, uint16_t size);  // Assurez-vous que cette déclaration correspond à la définition
+static void ProcessMozaData(uint8_t* data, uint16_t size);
 static void PrepareMozaPacket(void);
 static bool CompareWheelStates(WheelState_t* state1, WheelState_t* state2);
+
+// Nouvelles fonctions pour la communication MOZA
+static void MOZA_SetPinOutput(void);
+static void MOZA_SetPinInput(void);
+static void MOZA_SendBit(uint8_t bit);
+static uint8_t MOZA_ReadBit(void);
+static void MOZA_SendByte(uint8_t byte);
+static uint8_t MOZA_ReadByte(void);
+static void SendMozaPacket(void);
 /* USER CODE END PFP */
 /**
   * @brief  Process data received from MOZA base
@@ -227,7 +236,9 @@ static void MOZA_SendBit(uint8_t bit)
   if (MOZA_BIT_TIME_US % 1000 > 0) {
     // Pour les délais inférieurs à 1ms, utilisez une boucle de délai
     uint32_t startTick = HAL_GetTick();
-    while (HAL_GetTick() - startTick < 1);
+    while (HAL_GetTick() - startTick < 1) {
+      // Attente active
+    }
   }
 }
 
@@ -243,7 +254,9 @@ static uint8_t MOZA_ReadBit(void)
   HAL_Delay(MOZA_BIT_TIME_US / 1000);
   if (MOZA_BIT_TIME_US % 1000 > 0) {
     uint32_t startTick = HAL_GetTick();
-    while (HAL_GetTick() - startTick < 1);
+    while (HAL_GetTick() - startTick < 1) {
+      // Attente active
+    }
   }
   return bit;
 }
@@ -276,7 +289,9 @@ static uint8_t MOZA_ReadByte(void)
   uint8_t byte = 0;
   
   // Attendre le bit de départ (0)
-  while (MOZA_ReadBit() != 0);
+  while (MOZA_ReadBit() != 0) {
+    // Attente active
+  }
   
   // Lire 8 bits de données, LSB en premier
   for (int i = 0; i < 8; i++) {
@@ -351,8 +366,4 @@ while (1)
       memcpy(&prevWheelState, &wheelState, sizeof(WheelState_t));
     }
   }
-  
-  // Vérifier si des données sont disponibles à lire
-  // Cette partie dépend de la façon dont vous détectez les données entrantes
-  // Vous pourriez utiliser une interruption sur changement d'état de la broche
 }
