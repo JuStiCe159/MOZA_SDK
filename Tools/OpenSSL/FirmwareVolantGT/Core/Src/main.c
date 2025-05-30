@@ -339,31 +339,115 @@ static void SendMozaPacket(void)
   MOZA_SetPinInput();
 }
 
-/* Infinite loop */
-/* USER CODE BEGIN WHILE */
-while (1)
-{
-  /* USER CODE END WHILE */
 
-  /* USER CODE BEGIN 3 */
-  // Lire les entrées
-  ReadButtons();
-  ReadEncoders();
+
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+
+  /* USER CODE BEGIN 1 */
+
+
+
+
+
+  /* USER CODE END 1 */
+
+  /* MPU Configuration--------------------------------------------------------*/
+  MPU_Config();
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+  // Initialiser les variables
+  systemInitialized = false;
+  lastButtonReadTime = 0;
+  lastPacketTime = 0;
+  connectionActive = false;
+  successfulPackets = 0;
+  packetErrorCount = 0;
+  lastErrorTime = 0;
+  ledBlinkTime = 0;
+  ledBlinkCount = 0;
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_SPI1_Init();
+  MX_USART2_UART_Init();
+  MX_TIM1_Init();
+  MX_TIM2_Init();
+  /* USER CODE BEGIN 2 */
   
-  // Vérifier si l'état a changé
-  stateChanged = CompareWheelStates(&wheelState, &prevWheelState);
+
+
+  // Start timers
+  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_Base_Start_IT(&htim2);
   
-  // Si l'état a changé ou s'il est temps pour une mise à jour périodique
-  if (stateChanged || (HAL_GetTick() - lastTransmitTime > 50)) {
-    // Préparer et envoyer les données à la base MOZA
-    if (mozaState == MOZA_IDLE) {
-      SendMozaPacket();
-      
-      // Mettre à jour le temps de dernière transmission
-      lastTransmitTime = HAL_GetTick();
-      
-      // Sauvegarder l'état actuel
-      memcpy(&prevWheelState, &wheelState, sizeof(WheelState_t));
+
+
+
+
+
+
+
+
+
+
+
+  // Initial LED state
+  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+  
+  // Initialize MOZA data pin as input
+  MOZA_SetPinInput();
+  
+  systemInitialized = true;
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+    // Read inputs
+    ReadButtons();
+    ReadEncoders();
+    
+    // Check if state has changed
+    stateChanged = CompareWheelStates(&wheelState, &prevWheelState);
+    
+    // If state changed or it's time for a periodic update
+    uint32_t currentTime = HAL_GetTick();
+    if (stateChanged || (currentTime - lastTransmitTime > 50)) {
+      // Prepare and send data to MOZA base
+      if (mozaState == MOZA_IDLE) {
+        SendMozaPacket();
+        
+        // Update last transmit time
+        lastTransmitTime = currentTime;
+        
+        // Save current state
+        memcpy(&prevWheelState, &wheelState, sizeof(WheelState_t));
+      }
     }
   }
+  /* USER CODE END 3 */
 }
