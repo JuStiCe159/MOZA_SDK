@@ -339,8 +339,86 @@ static void SendMozaPacket(void)
   MOZA_SetPinInput();
 }
 
+/**
+  * @brief  Read button states and update wheelState
+  * @retval None
+  */
+static void ReadButtons(void)
+{
+  // Clear previous button states
+  wheelState.buttonState[0] = 0;
+  wheelState.buttonState[1] = 0;
+  
+  // Read buttons 1-8 (first byte)
+  wheelState.buttonState[0] |= (HAL_GPIO_ReadPin(BUTTON_1_GPIO_Port, BUTTON_1_Pin) == GPIO_PIN_RESET) ? (1 << 0) : 0;
+  wheelState.buttonState[0] |= (HAL_GPIO_ReadPin(BUTTON_2_GPIO_Port, BUTTON_2_Pin) == GPIO_PIN_RESET) ? (1 << 1) : 0;
+  wheelState.buttonState[0] |= (HAL_GPIO_ReadPin(BUTTON_3_GPIO_Port, BUTTON_3_Pin) == GPIO_PIN_RESET) ? (1 << 2) : 0;
+  wheelState.buttonState[0] |= (HAL_GPIO_ReadPin(BUTTON_4_GPIO_Port, BUTTON_4_Pin) == GPIO_PIN_RESET) ? (1 << 3) : 0;
+  wheelState.buttonState[0] |= (HAL_GPIO_ReadPin(BUTTON_5_GPIO_Port, BUTTON_5_Pin) == GPIO_PIN_RESET) ? (1 << 4) : 0;
+  wheelState.buttonState[0] |= (HAL_GPIO_ReadPin(BUTTON_6_GPIO_Port, BUTTON_6_Pin) == GPIO_PIN_RESET) ? (1 << 5) : 0;
+  wheelState.buttonState[0] |= (HAL_GPIO_ReadPin(BUTTON_7_GPIO_Port, BUTTON_7_Pin) == GPIO_PIN_RESET) ? (1 << 6) : 0;
+  wheelState.buttonState[0] |= (HAL_GPIO_ReadPin(BUTTON_8_GPIO_Port, BUTTON_8_Pin) == GPIO_PIN_RESET) ? (1 << 7) : 0;
+  
+  // Additional buttons could be added to buttonState[1] if needed
+}
 
-
+/**
+  * @brief  Read encoder states and update wheelState
+  * @retval None
+  */
+static void ReadEncoders(void)
+{
+  static uint8_t enc1_last_state = 0;
+  static uint8_t enc2_last_state = 0;
+  
+  // Read current encoder states
+  uint8_t enc1_a = HAL_GPIO_ReadPin(ENC1_A_GPIO_Port, ENC1_A_Pin);
+  uint8_t enc1_b = HAL_GPIO_ReadPin(ENC1_B_GPIO_Port, ENC1_B_Pin);
+  uint8_t enc2_a = HAL_GPIO_ReadPin(ENC2_A_GPIO_Port, ENC2_A_Pin);
+  uint8_t enc2_b = HAL_GPIO_ReadPin(ENC2_B_GPIO_Port, ENC2_B_Pin);
+  
+  // Combine pins to get current state
+  uint8_t enc1_state = (enc1_a << 1) | enc1_b;
+  uint8_t enc2_state = (enc2_a << 1) | enc2_b;
+  
+  // Encoder 1 state machine
+  if (enc1_state != enc1_last_state) {
+    switch (enc1_last_state) {
+      case 0:
+        wheelState.encoder1 += (enc1_state == 1) ? 1 : -1;
+        break;
+      case 1:
+        wheelState.encoder1 += (enc1_state == 3) ? 1 : -1;
+        break;
+      case 2:
+        wheelState.encoder1 += (enc1_state == 0) ? 1 : -1;
+        break;
+      case 3:
+        wheelState.encoder1 += (enc1_state == 2) ? 1 : -1;
+        break;
+    }
+    enc1_last_state = enc1_state;
+  }
+  
+  // Encoder 2 state machine
+  if (enc2_state != enc2_last_state) {
+    switch (enc2_last_state) {
+      case 0:
+        wheelState.encoder2 += (enc2_state == 1) ? 1 : -1;
+        break;
+      case 1:
+        wheelState.encoder2 += (enc2_state == 3) ? 1 : -1;
+        break;
+      case 2:
+        wheelState.encoder2 += (enc2_state == 0) ? 1 : -1;
+        break;
+      case 3:
+        wheelState.encoder2 += (enc2_state == 2) ? 1 : -1;
+        break;
+    }
+    enc2_last_state = enc2_state;
+  }
+}
 
 /**
   * @brief  The application entry point.
@@ -348,12 +426,7 @@ static void SendMozaPacket(void)
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
-
-
-
-
 
   /* USER CODE END 1 */
 
@@ -393,23 +466,10 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   
-
-
   // Start timers
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_Base_Start_IT(&htim2);
   
-
-
-
-
-
-
-
-
-
-
-
   // Initial LED state
   HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
