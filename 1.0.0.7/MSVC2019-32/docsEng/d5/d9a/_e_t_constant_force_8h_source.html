@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>mozaSdk: ETConstantForce.h 源文件</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">mozaSdk
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',false,false,'search.php','搜索');
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_8ad2fa29a03bf841e8c57341a9f0678b.html">sdk_api</a></li><li class="navelem"><a class="el" href="../../dir_f45152e5be5332f880f0716b277b5d48.html">effects</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">ETConstantForce.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;dinput.h&gt;</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Effect.h&quot;</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d1/d61/namespace_r_s21_1_1direct__input.html">RS21::direct_input</a> {</div><div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html">ETConstantForce</a>: <span class="keyword">public</span> <a class="code" href="../../de/d2c/class_r_s21_1_1direct__input_1_1_effect.html">Effect</a></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#afc6473db4e5d127f1c509eea71c630c7">ETConstantForce</a>(Device* device);</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">long</span> <a class="code" href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#adfac29da4839ac9164166a10c2f51b5a">magnitude</a>();</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#a2029336f18953303ce4c79d17254f7dd">setMagnitude</a>(<span class="keywordtype">long</span> newMagnitude);</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">protected</span>:</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#a57931df1b316e1d9851fc770fab4b859">downloadToDevice</a>(LPDIRECTINPUTDEVICE8 device) <span class="keyword">override</span>;</div><div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#a7af10f250b76a918dd7e9414b5e42b61">   52</a></span>&#160;    DICONSTANTFORCE <a class="code" href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#a7af10f250b76a918dd7e9414b5e42b61">m_diPeriodic</a>;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}<span class="comment">//RS21::directInput</span></div><div class="ttc" id="class_r_s21_1_1direct__input_1_1_e_t_constant_force_html"><div class="ttname"><a href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html">RS21::direct_input::ETConstantForce</a></div><div class="ttdoc">Constant force effect class 1.Specialization attribute: magnitude</div><div class="ttdef"><b>Definition:</b> ETConstantForce.h:14</div></div>
+<div class="ttc" id="class_r_s21_1_1direct__input_1_1_e_t_constant_force_html_a2029336f18953303ce4c79d17254f7dd"><div class="ttname"><a href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#a2029336f18953303ce4c79d17254f7dd">RS21::direct_input::ETConstantForce::setMagnitude</a></div><div class="ttdeci">void setMagnitude(long newMagnitude)</div><div class="ttdoc">set the strength of the current ETConstantForce</div></div>
+<div class="ttc" id="class_r_s21_1_1direct__input_1_1_e_t_constant_force_html_a7af10f250b76a918dd7e9414b5e42b61"><div class="ttname"><a href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#a7af10f250b76a918dd7e9414b5e42b61">RS21::direct_input::ETConstantForce::m_diPeriodic</a></div><div class="ttdeci">DICONSTANTFORCE m_diPeriodic</div><div class="ttdef"><b>Definition:</b> ETConstantForce.h:52</div></div>
+<div class="ttc" id="class_r_s21_1_1direct__input_1_1_effect_html"><div class="ttname"><a href="../../de/d2c/class_r_s21_1_1direct__input_1_1_effect.html">RS21::direct_input::Effect</a></div><div class="ttdoc">Effect Abstract Class</div><div class="ttdef"><b>Definition:</b> Effect.h:21</div></div>
+<div class="ttc" id="class_r_s21_1_1direct__input_1_1_e_t_constant_force_html_afc6473db4e5d127f1c509eea71c630c7"><div class="ttname"><a href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#afc6473db4e5d127f1c509eea71c630c7">RS21::direct_input::ETConstantForce::ETConstantForce</a></div><div class="ttdeci">ETConstantForce(Device *device)</div></div>
+<div class="ttc" id="namespace_r_s21_1_1direct__input_html"><div class="ttname"><a href="../../d1/d61/namespace_r_s21_1_1direct__input.html">RS21::direct_input</a></div><div class="ttdef"><b>Definition:</b> DeviceException.h:7</div></div>
+<div class="ttc" id="class_r_s21_1_1direct__input_1_1_e_t_constant_force_html_a57931df1b316e1d9851fc770fab4b859"><div class="ttname"><a href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#a57931df1b316e1d9851fc770fab4b859">RS21::direct_input::ETConstantForce::downloadToDevice</a></div><div class="ttdeci">void downloadToDevice(LPDIRECTINPUTDEVICE8 device) override</div><div class="ttdoc">Device creation force (initialization)</div></div>
+<div class="ttc" id="class_r_s21_1_1direct__input_1_1_e_t_constant_force_html_adfac29da4839ac9164166a10c2f51b5a"><div class="ttname"><a href="../../df/dcf/class_r_s21_1_1direct__input_1_1_e_t_constant_force.html#adfac29da4839ac9164166a10c2f51b5a">RS21::direct_input::ETConstantForce::magnitude</a></div><div class="ttdeci">long magnitude()</div><div class="ttdoc">Obtain the strength of the current ETConstantForce</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者 &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="../../doxygen.png" alt="doxygen"/>
+</a> 1.8.15
+</small></address>
+</body>
+</html>

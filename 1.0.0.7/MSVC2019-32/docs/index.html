@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>mozaSdk: RS21_sdk</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">mozaSdk
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',false,false,'search.php','搜索');
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">RS21_sdk </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p>1 环境搭建: <br />
+加载OpenSSL库 <br />
+加载MOZA_SDK.lib <br />
+包含mozaAPI.h头文件 <br />
+安装MOZA Pit House(sdk版本)<br />
+<br />
+2 接口使用: <br />
+最先需要调用installMozaSDK()加载sdk，才能使用sdk其他功能接口，否则会返回错误码提示，若想移除sdk可调用removeMozaSDK()。 <br />
+ <br />
+2.1 可设置和获取参数的设备分为： <br />
+Motor 电机；SteeringWheel 方向盘；DisplayScreen 显示屏；Pedal 踏板；Handbrake 手刹 <br />
+分别通过get/set(获取/设置)设备的参数(例如：getMotorLimitAngle) <br />
+标定接口的使用为，先调用开始标定接口，等待标定完成，再调用结束标定接口，才能标定完成： <br />
+踏板离合标定：ClutchCalibrateStrat(); 完成按下并完全松开离合踏板；ClutchCalibrateFinish() <br />
+踏板油门标定：AccCalibrateStrat();完成按下并完全松开油门踏板；AccCalibrateFinish() <br />
+踏板刹车标定：BrakeCalibrateStrat();完成按下并完全松开刹车踏板；BrakeCalibrateFinish() <br />
+手刹标定：HandbrakeCalibrateStart();完成按下并完全松开手刹；HandbrakeCalibrateFinish() <br />
+换挡器标定：ShifterCalibrateStart();按压换挡杆并从最左到最右来回移动换挡杆（注意不需要挂入任何挡位）；ShifterCalibrateFinish() <br />
+ <br />
+2.2 力反馈的力种类有： <br />
+ConstantFore；Damper；Friction；Inertia；Sine；Spring <br />
+分别通过通过createWheelbaseETXXX来创建，例如(createWheelbaseETConstantFore)，返回为力的管理者，通过管理者设置力的参数，通过start()函数启动力反馈 <br />
+ <br />
+2.3 HID： <br />
+通过getHIDData获取该周期内的HID数据 <br />
+启动sdk到调用getHIDData接口为一个周期，前一次调用getHIDData和后一次调用getHIDData是一个周期。周期过长可能导致HID环状缓存占满后有数据丢失，使用接口通过错误码可获取数据是否丢失 <br />
+轴的值为最后getHIDData的状态值； <br />
+HIDButton记录了周期内初始状态和改变次数，可通过函数获取信息：是否按下(isPressed())，最后按键状态（lastPressState()），按下的次数（pressNum()）或者自定义函数获取信息 <br />
+buttons[128]对应128个按键值，其所应编号对应方向盘按键编号。 <br />
+HIDRocker、HIDKnob、HIDMultiSegmentKnob都记录了周期内的操作 <br />
+<br />
+</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者 &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.15
+</small></address>
+</body>
+</html>
